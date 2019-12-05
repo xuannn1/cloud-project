@@ -24,6 +24,9 @@ Route::prefix('v1')
         // 使用throttle中间件限制访问频率
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
             ->group(function(){
+                // 图片验证码
+                Route::post('captchas', 'CaptchasController@store')
+                    ->name('captchas.store');
                 // 短信验证码
                 Route::post('verificationCodes', 'VerificationCodesController@store')
                     ->name('verificationCodes.store');
