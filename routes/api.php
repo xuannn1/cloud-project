@@ -51,9 +51,15 @@ Route::prefix('v1')
                 // 某个用户的详情
                 Route::get('users/{user}', 'UsersController@show')
                     ->name('users.show');
-                // 分类列表
+                // 获取分类列表
                 Route::get('categories', 'CategoriesController@index')
                     ->name('categories.index');
+                // 获取帖子列表
+                Route::get('threads', 'ThreadsController@index')
+                    ->name('threads.index');
+                // 单个帖子详情
+                Route::get('threads/{thread}', 'ThreadsController@show')
+                    ->name('threads.show');
 
                 // 登录后可以访问的接口
                 Route::middleware('auth:api')->group(function() {
@@ -66,7 +72,15 @@ Route::prefix('v1')
                     // 上传图片
                     Route::post('images', 'ImagesController@store')
                         ->name('images.store');
-                    
+                    // 发布帖子
+                    Route::post('threads', 'ThreadsController@store')
+                        ->name('threads.store');
+                    // 编辑帖子
+                    Route::patch('threads/{thread}', 'ThreadsController@update')
+                        ->name('threads.update');
+                    // 删除帖子
+                    Route::delete('threads/{thread}', 'ThreadsController@destroy')
+                        ->name('threads.destroy');
                 });
             });
 });
