@@ -25,7 +25,7 @@ class ThreadsController extends Controller
 
     // 编辑帖子
     public function update(ThreadRequest $request, Thread $thread){
-        // 待做：修改的权限控制
+        $this->authorize('update', $thread);
         $thread->update($request->all());
 
         return new ThreadResource($thread);
@@ -38,6 +38,7 @@ class ThreadsController extends Controller
 
     // 删除帖子
     public function destroy(Thread $thread){
+        $this->authorize('destroy', $thread);
         $thread->delete();
 
         return response(null, 204);

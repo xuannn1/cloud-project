@@ -51,4 +51,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    // 权限控制，判断该用户是不是这个内容的作者
+    public function isAuthorOf($model){
+        return $this->id == $model->user_id;
+    }
 }
