@@ -10,11 +10,26 @@ use App\Http\Requests\Api\ThreadRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
+
 class ThreadsController extends Controller
 {
     // 获取帖子列表
     public function index(Request $request, Thread $thread){
         $threads = QueryBuilder::for(Thread::class)
+            ->allowedIncludes('user', 'category')
+            ->allowedFilters([
+                'title',
+                AllowedFilter::exact('category_id'),
+            ])
+            ->paginate();
+
+        return ThreadResource::collection($threads);
+    }
+
+    public function userIndex(Request $request, User $user){
+        $query = $user->threads()->getQuery();
+
+        $threads = QueryBuilder::for($query)
             ->allowedIncludes('user', 'category')
             ->allowedFilters([
                 'title',

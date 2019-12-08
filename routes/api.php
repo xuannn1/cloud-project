@@ -57,6 +57,9 @@ Route::prefix('v1')
                 // 获取帖子列表
                 Route::get('threads', 'ThreadsController@index')
                     ->name('threads.index');
+                // 获取某个用户发布的帖子列表
+                Route::get('users/{user}/threads', 'ThreadsController@userIndex')
+                    ->name('users.threads.index');
                 // 单个帖子详情
                 Route::get('threads/{thread}', 'ThreadsController@show')
                     ->name('threads.show');
