@@ -60,6 +60,9 @@ Route::prefix('v1')
                 // 单个帖子详情
                 Route::get('threads/{thread}', 'ThreadsController@show')
                     ->name('threads.show');
+                // 获取某个帖子的回复列表
+                Route::get('threads/{thread}/replies', 'RepliesController@index')
+                    ->name('threads.replies.index');
                 
 
                 // 登录后可以访问的接口

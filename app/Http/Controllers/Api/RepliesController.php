@@ -28,4 +28,10 @@ class RepliesController extends Controller
 
         return response(null, 204);
     }
+
+    public function index(Thread $thread){
+        $replies = $thread->replies()->paginate();
+
+        return ReplyResource::collection($replies);
+    }
 }
