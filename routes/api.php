@@ -63,6 +63,9 @@ Route::prefix('v1')
                 // 获取某个帖子的回复列表
                 Route::get('threads/{thread}/replies', 'RepliesController@index')
                     ->name('threads.replies.index');
+                // 获取某个用户的回复列表
+                Route::get('users/{user}/replies', 'RepliesController@userIndex')
+                    ->name('users.replies.index');
                 
 
                 // 登录后可以访问的接口

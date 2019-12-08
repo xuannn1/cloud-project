@@ -7,6 +7,7 @@ use App\Reply;
 use Illuminate\Http\Request;
 use App\Http\Resources\ReplyResource;
 use App\Http\Requests\Api\ReplyRequest;
+use App\Http\Queries\ReplyQuery;
 
 class RepliesController extends Controller
 {
@@ -29,9 +30,15 @@ class RepliesController extends Controller
         return response(null, 204);
     }
 
-    public function index(Thread $thread){
-        $replies = $thread->replies()->paginate();
+    public function index($threadId, ReplyQuery $query){
+        $replies = $query->where('thread_id', $threadId)->paginate();
 
         return ReplyResource::collection($replies);
+    }
+
+    public function userIndex($userId, ReplyQuery $query){
+        $replies = $query->where('user_id', $userId)->paginate();
+
+        return ReplyResource::collection($replies);        
     }
 }

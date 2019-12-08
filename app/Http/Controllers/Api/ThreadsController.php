@@ -7,20 +7,21 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\ThreadResource;
 use App\Http\Requests\Api\ThreadRequest;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class ThreadsController extends Controller
 {
     // 获取帖子列表
     public function index(Request $request, Thread $thread){
-        $query = $thread->query();
-
-        if($categoryId = $request->category_id){
-            $query->where('category_id', $categoryId);
-        }
-
-        $threads = $query
+        $threads = QueryBuilder::for(Thread::class)
+            ->allowedIncludes('user', 'category')
+            ->allowedFilters([
+                'title',
+                AllowedFilter::exact('category_id'),
+            ])
             ->paginate();
-        // $threads = Thread::withOrder($request->order);
+
         return ThreadResource::collection($threads);
     }
 
