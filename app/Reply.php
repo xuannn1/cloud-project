@@ -4,17 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Thread extends Model
+class Reply extends Model
 {
     protected $fillable = [
-        'title', 'body', 'category_id',
+        'body',
     ];
+    
+    public function thread(){
+        return $this->belongsTo(Thread::class);
+    }
 
     public function user(){
         return $this->belongsTo(User::class);
-    }
-
-    public function category(){
-        return $this->belongsTo(Category::class);
     }
 }

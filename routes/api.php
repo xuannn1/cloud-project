@@ -60,6 +60,7 @@ Route::prefix('v1')
                 // 单个帖子详情
                 Route::get('threads/{thread}', 'ThreadsController@show')
                     ->name('threads.show');
+                
 
                 // 登录后可以访问的接口
                 Route::middleware('auth:api')->group(function() {
@@ -81,6 +82,12 @@ Route::prefix('v1')
                     // 删除帖子
                     Route::delete('threads/{thread}', 'ThreadsController@destroy')
                         ->name('threads.destroy');
+                    // 发布回复
+                    Route::post('threads/{thread}/replies', 'RepliesController@store')
+                        ->name('threads.replies.store');
+                    // 删除回复
+                    Route::delete('threads/{thread}/replies/{reply}', 'RepliesController@destroy')
+                        ->name('threads.replies.destroy');
                 });
             });
 });

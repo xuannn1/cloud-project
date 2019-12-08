@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Thread;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\ThreadResource;
 use App\Http\Requests\Api\ThreadRequest;
@@ -10,8 +11,17 @@ use App\Http\Requests\Api\ThreadRequest;
 class ThreadsController extends Controller
 {
     // 获取帖子列表
-    public function index(){
-        return ThreadResource::collection(Thread::all());
+    public function index(Request $request, Thread $thread){
+        $query = $thread->query();
+
+        if($categoryId = $request->category_id){
+            $query->where('category_id', $categoryId);
+        }
+
+        $threads = $query
+            ->paginate();
+        // $threads = Thread::withOrder($request->order);
+        return ThreadResource::collection($threads);
     }
 
     // 发布帖子
@@ -43,4 +53,5 @@ class ThreadsController extends Controller
 
         return response(null, 204);
     }
+
 }
